@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<script src="js/jquery-1.10.2.min.js"></script>
+		<script src="js/editor.js"></script>
+		<title>editor</title>
+		<style>
+			#editor{
+				position: absolute;
+				left: 2px;
+				top: 2px;
+				right: 2px;
+				bottom: 2px;
+				border: 2px solid #000;
+				overflow: auto;
+			}
+		</style>
+		<script>
+			toolbar.callback.insertImage = function(arr){
+				$.each(arr,function(i,data){
+					$("#editor").append("<img src='"+data+"' width=200 height=200/>")
+				});
+			};
+			
+			// $(function(){
+				// toolbar.callback.insertImage(["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oMCRUiMrIBQVkAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12NgoC4AAABQAAEiE+h1AAAAAElFTkSuQmCC","data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oMCRUiMrIBQVkAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12NgoC4AAABQAAEiE+h1AAAAAElFTkSuQmCC"]);
+			// });
+			
+		</script>
+	</head>
+	<body>
+		
+		
+		<div id="editor" contenteditable="true"  >
+			
+		</div>
+		<!--<button onclick="window.editor.showToolbar()">showToolbar</button>
+		<button onclick="window.editor.hideToolbar()">hideToolbar</button>-->
+	</body>
+</html>

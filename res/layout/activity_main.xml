@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.github.zimengle.editor.webview.KeyboardLinearLayout
+ xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:id="@+id/root"
+    android:orientation="vertical" >
+
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/pic"
+                style="@style/toolbar_btn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/pic" />
+
+            <ImageView
+                android:id="@+id/face"
+                style="@style/toolbar_btn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/face" />
+
+            <ImageView
+                android:id="@+id/voice"
+                style="@style/toolbar_btn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/voice" />
+
+            <ImageView
+                android:id="@+id/at"
+                style="@style/toolbar_btn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/at" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</com.github.zimengle.editor.webview.KeyboardLinearLayout>
