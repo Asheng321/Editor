@@ -85,11 +85,13 @@ public class MainActivity extends Activity implements OnClickListener {
 		((KeyboardLinearLayout) findViewById(R.id.root)).setOnSoftKeyboardListener(new OnSoftKeyboardListener() {
 			
 			public void onShown() {
+				Log.d("zzzz", "show");
 				mToolbar.setVisibility(View.VISIBLE);
 				
 			}
 			
 			public void onHidden() {
+				Log.d("zzzz", "hide");
 				mToolbar.setVisibility(View.GONE);
 				
 			}

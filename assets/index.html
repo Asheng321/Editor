@@ -19,8 +19,10 @@
 		<script>
 			toolbar.callback.insertImage = function(arr){
 				$.each(arr,function(i,data){
-					$("#editor").append("<img src='"+data+"' width=200 height=200/>")
+					$("#editor").append("<img src='"+data+"' width=40 height=40/>")
 				});
+				$("#editor").focus();
+				toolbar.openKeyboard();
 			};
 			
 			// $(function(){

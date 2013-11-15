@@ -7,6 +7,9 @@
 		hide:function(){
 			win.nativetoolbar.hide();
 		},
+		openKeyboard:function(){
+			win.nativetoolbar.openKeyboard();
+		},
 		callback:{
 			insertImage:function(base64){}
 		}

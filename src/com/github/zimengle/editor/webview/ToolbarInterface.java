@@ -1,6 +1,8 @@
 package com.github.zimengle.editor.webview;
 
+import android.content.Context;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
@@ -24,6 +26,14 @@ public class ToolbarInterface {
 	@JavascriptInterface
 	public void hide(){
 //		toolbar.setVisibility(View.GONE);
+	}
+	
+	@JavascriptInterface
+	public void openKeyboard(){
+		InputMethodManager inputMethodManager = (InputMethodManager) toolbar.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+	    if (inputMethodManager != null) {
+	        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+	    }
 	}
 	
 	public void run(final String scriptSrc){
