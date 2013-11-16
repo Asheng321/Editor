@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>editor</title>
+	</head>
+	<body>
+		<script>
+			var result = /\?(.*)/.exec(document.URL)[1];
+			document.write(decodeURI(result));
+		</script>
+	</body>
+</html>

@@ -1,6 +1,6 @@
 package com.github.zimengle.editor;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,32 +9,41 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
 import com.github.zimengle.editor.R;
-import com.github.zimengle.editor.webview.KeyboardLinearLayout;
-import com.github.zimengle.editor.webview.KeyboardLinearLayout.OnSoftKeyboardListener;
 import com.github.zimengle.editor.webview.ToolbarInterface;
 import com.google.gson.Gson;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.Toast;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends SherlockActivity implements OnClickListener {
 
-	private static final int SELECT_PICTURE = 1;
+	private static final int GALLERY_PICTURE = 1;
+
+	private static final int CAMERA_REQUEST = 2;
+
+	private Intent pictureActionIntent = null;
 
 	private View mToolbar;
 
@@ -52,7 +61,10 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getSupportActionBar().setTitle("发表");
 		setContentView(R.layout.activity_main);
+		
+		
 
 		mToolbar = findViewById(R.id.toolbar);
 		mPicBtn = findViewById(R.id.pic);
@@ -78,31 +90,40 @@ public class MainActivity extends Activity implements OnClickListener {
 				return true;
 			}
 		});
-		toolbarInterface = new ToolbarInterface(mToolbar, webView);
+		toolbarInterface = new ToolbarInterface( webView,new ToolbarInterface.Callback() {
+			
+			public void onSubmit(String result) {
+				Intent intent = new Intent(MainActivity.this, DisplayActivity.class);
+				intent.putExtra("result", result);
+				MainActivity.this.startActivity(intent);
+			}
+		});
 		webView.addJavascriptInterface(toolbarInterface, "nativetoolbar");
 		webView.loadUrl("file:///android_asset/index.html");
 
-		((KeyboardLinearLayout) findViewById(R.id.root)).setOnSoftKeyboardListener(new OnSoftKeyboardListener() {
-			
-			public void onShown() {
-				Log.d("zzzz", "show");
-				mToolbar.setVisibility(View.VISIBLE);
-				
-			}
-			
-			public void onHidden() {
-				Log.d("zzzz", "hide");
-				mToolbar.setVisibility(View.GONE);
-				
-			}
-		});
+		// ((KeyboardLinearLayout)
+		// findViewById(R.id.root)).setOnSoftKeyboardListener(new
+		// OnSoftKeyboardListener() {
+		//
+		// public void onShown() {
+		// Log.d("zzzz", "show");
+		// mToolbar.setVisibility(View.VISIBLE);
+		//
+		// }
+		//
+		// public void onHidden() {
+		// Log.d("zzzz", "hide");
+		// mToolbar.setVisibility(View.GONE);
+		//
+		// }
+		// });
 
 	}
 
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.pic:
-			onPicBtnClick();
+			startDialog();
 			break;
 		case R.id.face:
 			onFaceBtnClick();
@@ -133,31 +154,40 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	}
 
-	private void onPicBtnClick() {
-		Intent intent = new Intent();
-		intent.setType("image/*");
-		intent.setAction(Intent.ACTION_GET_CONTENT);
-
-		startActivityForResult(Intent.createChooser(intent, "Select Picture"),
-				SELECT_PICTURE);
-	}
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK) {
-			if (requestCode == SELECT_PICTURE) {
-				Uri selectedImageUri = data.getData();
-				Gson gson = new Gson();
-				try {
-					String list = gson.toJson(getBase64List(selectedImageUri));
-					// toolbarInterface.run("insertImage("+list+")");
-					toolbarInterface.run("nativetoolbarCallback(" + list + ")");
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		if (requestCode  == GALLERY_PICTURE) {
+			if (resultCode == RESULT_OK) {
+				if (data != null) {
+					Uri selectedImageUri = data.getData();
+					Gson gson = new Gson();
+					try {
+						String list = gson.toJson(getBase64List(selectedImageUri));
+						toolbarInterface.run("nativetoolbarCallback(" + list + ")");
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+
+			}
+		}else if (requestCode == CAMERA_REQUEST) {
+			if (resultCode == RESULT_OK) {
+				if (data.hasExtra("data")) {
+					Bitmap bitmap = ((Bitmap) data.getExtras().get("data"));
+					final ByteArrayOutputStream baos = new ByteArrayOutputStream();  
+					bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object 
+					List<String> result = new ArrayList<String>();
+					result.add("data:image/jpeg;base64," + Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT));
+					Gson gson = new Gson();
+					String list = gson.toJson(result);
+					Log.d("zzzz", list);
+					toolbarInterface.run("nativetoolbarCallback("+list+")");
 				}
 			}
 		}
+
 	}
 
 	public static class Image {
@@ -201,6 +231,59 @@ public class MainActivity extends Activity implements OnClickListener {
 			list.add(new Image(path, mime).getURIData());
 		}
 		return list;
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+        menu.add("提交")
+            .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(
+			com.actionbarsherlock.view.MenuItem item) {
+		if("提交".equals(item.getTitle())){
+			submit();
+		}
+		
+		return true;
+	}
+
+	private void submit() {
+		toolbarInterface.run("nativetoolbarSubmit()");
+		
+	}
+
+	private void startDialog() {
+		AlertDialog.Builder myAlertDialog = new AlertDialog.Builder(this);
+		myAlertDialog.setTitle("选择照片");
+		myAlertDialog.setMessage("请选择要插入的图片?");
+
+		myAlertDialog.setPositiveButton("相册",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface arg0, int arg1) {
+						pictureActionIntent = new Intent(
+								Intent.ACTION_GET_CONTENT, null);
+						pictureActionIntent.setType("image/*");
+						pictureActionIntent.putExtra("return-data", true);
+						startActivityForResult(pictureActionIntent,
+								GALLERY_PICTURE);
+					}
+				});
+
+		myAlertDialog.setNegativeButton("拍照",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface arg0, int arg1) {
+						pictureActionIntent = new Intent(
+								android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+						startActivityForResult(pictureActionIntent,
+								CAMERA_REQUEST);
+
+					}
+				});
+		myAlertDialog.show();
 	}
 
 }

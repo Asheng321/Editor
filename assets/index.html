@@ -6,14 +6,38 @@
 		<script src="js/editor.js"></script>
 		<title>editor</title>
 		<style>
+			
+			*{
+				margin: 0;
+				padding: 0;
+				font-size: 14px;
+				font-family: serif;
+			}
+			body{
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				width: 100%;
+				height: 100%;
+			}
+			#title{
+				position: absolute;
+				left: 0;
+				top: 0;
+				right: 0;
+				padding: 10px 5px;
+				border: 0;
+				
+			}
 			#editor{
 				position: absolute;
-				left: 2px;
-				top: 2px;
-				right: 2px;
-				bottom: 2px;
-				border: 2px solid #000;
+				top: 37px;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				border-top: 1px solid #000;
 				overflow: auto;
+				padding: 7px 5px;
 			}
 		</style>
 		<script>
@@ -22,22 +46,19 @@
 					$("#editor").append("<img src='"+data+"' width=40 height=40/>")
 				});
 				$("#editor").focus();
-				toolbar.openKeyboard();
+				
+				toolbar.openKeyboard();	
+				
 			};
-			
-			// $(function(){
-				// toolbar.callback.insertImage(["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oMCRUiMrIBQVkAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12NgoC4AAABQAAEiE+h1AAAAAElFTkSuQmCC","data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAIAAAACDbGyAAAAAXNSR0IArs4c6QAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oMCRUiMrIBQVkAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAADElEQVQI12NgoC4AAABQAAEiE+h1AAAAAElFTkSuQmCC"]);
-			// });
-			
+			toolbar.callback.submit = function(){
+				return "的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒的撒旦撒旦撒撒的撒的撒十大撒zzzzzzz";
+			}
 		</script>
 	</head>
 	<body>
-		
-		
-		<div id="editor" contenteditable="true"  >
+		<input id="title" type="text" placeholder="标题(必填)"/>
+		<div id="editor" contenteditable="true">
 			
 		</div>
-		<!--<button onclick="window.editor.showToolbar()">showToolbar</button>
-		<button onclick="window.editor.hideToolbar()">hideToolbar</button>-->
 	</body>
 </html>
