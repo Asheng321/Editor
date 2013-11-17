@@ -13,6 +13,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.github.zimengle.editor.R;
 import com.github.zimengle.editor.webview.ToolbarInterface;
+import com.github.zimengle.editor.webview.ToolbarInterface.ViewHolder;
 import com.google.gson.Gson;
 
 import android.annotation.SuppressLint;
@@ -22,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -90,7 +92,7 @@ public class MainActivity extends SherlockActivity implements OnClickListener {
 				return true;
 			}
 		});
-		toolbarInterface = new ToolbarInterface( webView,new ToolbarInterface.Callback() {
+		toolbarInterface = new ToolbarInterface(new ViewHolder(getSupportActionBar(), mToolbar), webView,new ToolbarInterface.Callback() {
 			
 			public void onSubmit(String result) {
 				Intent intent = new Intent(MainActivity.this, DisplayActivity.class);
@@ -100,23 +102,6 @@ public class MainActivity extends SherlockActivity implements OnClickListener {
 		});
 		webView.addJavascriptInterface(toolbarInterface, "nativetoolbar");
 		webView.loadUrl("file:///android_asset/index.html");
-
-		// ((KeyboardLinearLayout)
-		// findViewById(R.id.root)).setOnSoftKeyboardListener(new
-		// OnSoftKeyboardListener() {
-		//
-		// public void onShown() {
-		// Log.d("zzzz", "show");
-		// mToolbar.setVisibility(View.VISIBLE);
-		//
-		// }
-		//
-		// public void onHidden() {
-		// Log.d("zzzz", "hide");
-		// mToolbar.setVisibility(View.GONE);
-		//
-		// }
-		// });
 
 	}
 
@@ -150,8 +135,15 @@ public class MainActivity extends SherlockActivity implements OnClickListener {
 	}
 
 	private void onFaceBtnClick() {
-		// TODO Auto-generated method stub
-
+		Bitmap bitmap = ((BitmapDrawable)getResources().getDrawable(R.drawable.face1)).getBitmap();
+		final ByteArrayOutputStream baos = new ByteArrayOutputStream();  
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+		List<String> result = new ArrayList<String>();
+		result.add("data:image/jpeg;base64," + Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT));
+		Gson gson = new Gson();
+		String list = gson.toJson(result);
+		Log.d("zzzz", list);
+		toolbarInterface.run("nativetoolbarCallbackFace("+list+")");
 	}
 
 	@Override

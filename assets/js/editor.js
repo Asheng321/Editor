@@ -1,11 +1,11 @@
 (function(win){
 	
 	win.toolbar = {
-		show:function(){
-			win.nativetoolbar.show();
+		fullscreen:function(){
+			win.nativetoolbar.fullscreen();
 		},
-		hide:function(){
-			win.nativetoolbar.hide();
+		quitFullscreen:function(){
+			win.nativetoolbar.quitFullscreen();
 		},
 		openKeyboard:function(){
 			setTimeout(function(){
@@ -14,9 +14,14 @@
 		},
 		callback:{
 			insertImage:function(base64){},
+			insertFace:function(base64){},
 			submit:function(){}
 		}
 	};
+	
+	win.nativetoolbarCallbackFace = function(base64){
+		toolbar.callback.insertFace(base64);
+	}
 	
 	win.nativetoolbarCallback = function(base64){
 		toolbar.callback.insertImage(base64);
